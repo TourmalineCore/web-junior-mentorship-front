@@ -18,7 +18,7 @@ function App() {
       <ul>
         {
           clients.map(({id, name}) => (
-            <li>
+            <li key={id}>
               <span>{id}</span>
               <span>{name}</span>
             </li>
