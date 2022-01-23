@@ -10,6 +10,7 @@ type Client = {
 
 function App() {
   const [clients, setClients] = useState<Client[]>([])
+  const [newClientName, setNewClientName] = useState<string>('')
 
   useEffect(() => {
     async function fetchClients() {
@@ -36,10 +37,15 @@ function App() {
           ))
         }
       </ul>
-      <form onSubmit={(e) => {e.preventDefault(); handleSubmit();}}>
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
         <label>
           Name:
-          <input type="text" name="name" />
+          <input
+            type="text"
+            name="name"
+            value={newClientName}
+            onChange={(e) => setNewClientName(e.target.value)}
+          />
         </label>
         <input type="submit" value="Submit" />
       </form>
@@ -61,8 +67,7 @@ function App() {
   );
 
   function handleSubmit() {
-    console.log('Submit')
-    
+    console.log(newClientName)
   }
 }
 
