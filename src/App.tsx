@@ -3,15 +3,20 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
+type Client = {
+  id: number;
+  name: string;
+}
+
 function App() {
-  const [clients, setClients] = useState([])
+  const [clients, setClients] = useState<Client[]>([])
 
   useEffect(() => {
     async function fetchClients() {
-      const { 
+      const {
         data,
-       } = await axios.get(`http://localhost:5000/clients`)
-       setClients(data)
+      } = await axios.get<Client[]>(`http://localhost:5000/clients`)
+      setClients(data)
     }
     fetchClients();
   }, []);
@@ -20,7 +25,7 @@ function App() {
     <div className="App">
       <ul>
         {
-          clients.map(({id, name}) => (
+          clients.map(({ id, name }) => (
             <li key={id}>
               <span>{id}</span>
               <span>{name}</span>
