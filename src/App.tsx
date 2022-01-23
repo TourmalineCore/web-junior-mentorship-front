@@ -7,11 +7,14 @@ function App() {
   const [clients, setClients] = useState([])
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/clients`)
-      .then(({ data }) => {
-        setClients(data)
-      })
-  }, [])
+    async function fetchClients() {
+      const { 
+        data,
+       } = await axios.get(`http://localhost:5000/clients`)
+       setClients(data)
+    }
+    fetchClients();
+  }, []);
 
   return (
     <div className="App">
