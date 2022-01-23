@@ -15,6 +15,7 @@ type NewClientResult = {
 function App() {
   const [clients, setClients] = useState<Client[]>([])
   const [newClientName, setNewClientName] = useState<string>('')
+  const [lastCreatedClientId, setLastCreatedClientId] = useState<number | null>(null)
 
   useEffect(() => {
     async function fetchClients() {
@@ -24,7 +25,7 @@ function App() {
       setClients(data)
     }
     fetchClients();
-  }, []);
+  }, [lastCreatedClientId]);
 
   return (
     <div className="App">
@@ -72,11 +73,13 @@ function App() {
 
   async function handleSubmit() {
     const {
-      data
+      data: {
+        id: newlyCreatedClientId
+      }
     } = await axios.post<NewClientResult>(`http://localhost:5000/clients`, {
       name: newClientName,
     })
-    console.log(data);
+    setLastCreatedClientId(newlyCreatedClientId)
   }
 }
 
