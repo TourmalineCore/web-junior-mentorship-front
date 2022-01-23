@@ -36,6 +36,13 @@ function App() {
           ))
         }
       </ul>
+      <form onSubmit={(e) => {e.preventDefault(); handleSubmit();}}>
+        <label>
+          Name:
+          <input type="text" name="name" />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -52,6 +59,11 @@ function App() {
       </header>
     </div>
   );
+
+  function handleSubmit() {
+    console.log('Submit')
+    
+  }
 }
 
 export default App;
