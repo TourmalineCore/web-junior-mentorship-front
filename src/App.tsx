@@ -25,7 +25,10 @@ function App() {
     <div className="App">
       <ul>
         {
-          clients.map(({ id, name }) => (
+          clients.map(({
+            id,
+            name,
+          }) => (
             <li key={id}>
               <span>{id}</span>
               <span>{name}</span>
