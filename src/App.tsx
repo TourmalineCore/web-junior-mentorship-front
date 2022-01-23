@@ -5,17 +5,26 @@ import axios from 'axios';
 
 function App() {
   const [clients, setClients] = useState([])
-  
+
   useEffect(() => {
     axios.get(`http://localhost:5000/clients`)
-      .then(({data}) => {
+      .then(({ data }) => {
         setClients(data)
       })
   }, [])
 
   return (
     <div className="App">
-      {clients.length}
+      <ul>
+        {
+          clients.map(({id, name}) => (
+            <li>
+              <span>{id}</span>
+              <span>{name}</span>
+            </li>
+          ))
+        }
+      </ul>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
