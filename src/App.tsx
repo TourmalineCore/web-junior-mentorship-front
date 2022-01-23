@@ -1,18 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 
 function App() {
+  const [clients, setClients] = useState([])
+  
   useEffect(() => {
     axios.get(`http://localhost:5000/clients`)
-      .then(function (response) {
-        console.log(response);
+      .then(({data}) => {
+        setClients(data)
       })
   }, [])
 
   return (
     <div className="App">
+      {clients.length}
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
