@@ -8,8 +8,14 @@ type Client = {
   name: string;
 }
 
+type NewClientResult = {
+  id: number;
+}
+
 function App() {
   const [clients, setClients] = useState<Client[]>([])
+  const [newClientName, setNewClientName] = useState<string>('')
+  const [lastCreatedClientId, setLastCreatedClientId] = useState<number | null>(null)
 
   useEffect(() => {
     async function fetchClients() {
@@ -19,7 +25,7 @@ function App() {
       setClients(data)
     }
     fetchClients();
-  }, []);
+  }, [lastCreatedClientId]);
 
   return (
     <div className="App">
@@ -36,6 +42,18 @@ function App() {
           ))
         }
       </ul>
+      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+        <label>
+          Name:
+          <input
+            type="text"
+            name="name"
+            value={newClientName}
+            onChange={(e) => setNewClientName(e.target.value)}
+          />
+        </label>
+        <input type="submit" value="Submit" />
+      </form>
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -52,6 +70,17 @@ function App() {
       </header>
     </div>
   );
+
+  async function handleSubmit() {
+    const {
+      data: {
+        id: newlyCreatedClientId
+      }
+    } = await axios.post<NewClientResult>(`http://localhost:5000/clients`, {
+      name: newClientName,
+    })
+    setLastCreatedClientId(newlyCreatedClientId)
+  }
 }
 
 export default App;
