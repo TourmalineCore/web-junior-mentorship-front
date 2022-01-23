@@ -8,6 +8,10 @@ type Client = {
   name: string;
 }
 
+type NewClientResult = {
+  id: number;
+}
+
 function App() {
   const [clients, setClients] = useState<Client[]>([])
   const [newClientName, setNewClientName] = useState<string>('')
@@ -66,8 +70,13 @@ function App() {
     </div>
   );
 
-  function handleSubmit() {
-    console.log(newClientName)
+  async function handleSubmit() {
+    const {
+      data
+    } = await axios.post<NewClientResult>(`http://localhost:5000/clients`, {
+      name: newClientName,
+    })
+    console.log(data);
   }
 }
 
