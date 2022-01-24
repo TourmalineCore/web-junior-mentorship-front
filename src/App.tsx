@@ -72,17 +72,19 @@ function App() {
   );
 
   async function handleSubmit() {
-    if (!newClientName) {
+    const trimmedName = newClientName.trim()
+    if (!trimmedName) {
       return
     }
-    
+
     const {
       data: {
         id: newlyCreatedClientId
       }
     } = await axios.post<NewClientResult>(`http://localhost:5000/clients`, {
-      name: newClientName,
+      name: trimmedName,
     })
+    
     setLastCreatedClientId(newlyCreatedClientId)
   }
 }
