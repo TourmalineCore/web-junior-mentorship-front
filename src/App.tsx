@@ -16,6 +16,7 @@ function App() {
   const [clients, setClients] = useState<Client[]>([])
   const [newClientName, setNewClientName] = useState<string>('')
   const [lastCreatedClientId, setLastCreatedClientId] = useState<number | null>(null)
+  const [hasTriedToSubmit, setHasTriedToSubmit] = useState<boolean>(false)
 
   useEffect(() => {
     async function fetchClients() {
@@ -53,7 +54,7 @@ function App() {
             required
           />
           {
-            !isNameValid() && (
+            hasTriedToSubmit && !isNameValid() && (
               <span>Fill the name</span>
             )
           }
@@ -78,6 +79,8 @@ function App() {
   );
 
   async function handleSubmit() {
+    setHasTriedToSubmit(true)
+
     if (!isNameValid()) {
       return
     }
