@@ -53,7 +53,7 @@ function App() {
             required
           />
           {
-            !newClientName.trim() && (
+            !isNameValid() && (
               <span>Fill the name</span>
             )
           }
@@ -78,20 +78,37 @@ function App() {
   );
 
   async function handleSubmit() {
-    const trimmedName = newClientName.trim()
-    if (!trimmedName) {
+    if (!isNameValid()) {
       return
     }
+
+    const {
+      name,
+    } = getNewClientData()
 
     const {
       data: {
         id: newlyCreatedClientId
       }
     } = await axios.post<NewClientResult>(`http://localhost:5000/clients`, {
-      name: trimmedName,
+      name,
     })
 
     setLastCreatedClientId(newlyCreatedClientId)
+  }
+
+  function isNameValid() {
+    const {
+      name,
+    } = getNewClientData()
+
+    return !!name
+  }
+
+  function getNewClientData() {
+    return {
+      name: newClientName.trim()
+    }
   }
 }
 
