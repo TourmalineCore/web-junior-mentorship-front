@@ -52,6 +52,11 @@ function App() {
             onChange={(e) => setNewClientName(e.target.value)}
             required
           />
+          {
+            !newClientName.trim() && (
+              <span>Fill the name</span>
+            )
+          }
         </label>
         <input type="submit" value="Submit" />
       </form>
