@@ -44,12 +44,13 @@ function App() {
       </ul>
       <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
         <label>
-          Name:
+          Name*:
           <input
             type="text"
             name="name"
             value={newClientName}
             onChange={(e) => setNewClientName(e.target.value)}
+            required
           />
         </label>
         <input type="submit" value="Submit" />
@@ -84,7 +85,7 @@ function App() {
     } = await axios.post<NewClientResult>(`http://localhost:5000/clients`, {
       name: trimmedName,
     })
-    
+
     setLastCreatedClientId(newlyCreatedClientId)
   }
 }
