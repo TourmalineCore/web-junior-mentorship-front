@@ -72,6 +72,10 @@ function App() {
   );
 
   async function handleSubmit() {
+    if (!newClientName) {
+      return
+    }
+    
     const {
       data: {
         id: newlyCreatedClientId
