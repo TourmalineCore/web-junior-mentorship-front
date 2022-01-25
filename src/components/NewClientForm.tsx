@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import axios from 'axios';
 import createClientAsync from '../services/create-client.command';
 
 type NewClientFormProps = {
