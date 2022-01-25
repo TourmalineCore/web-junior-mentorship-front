@@ -1,9 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
-
-type NewClientResult = {
-  id: number;
-}
+import createClientAsync from '../services/create-client.command';
 
 type NewClientFormProps = {
   onClientCreated: (createdClientId: number) => unknown;
@@ -47,13 +44,7 @@ function NewClientForm({
       name,
     } = getNewClientData()
 
-    const {
-      data: {
-        id: newlyCreatedClientId
-      }
-    } = await axios.post<NewClientResult>(`http://localhost:5000/clients`, {
-      name,
-    })
+    const newlyCreatedClientId = await createClientAsync(name)
 
     onClientCreated(newlyCreatedClientId)
   }
