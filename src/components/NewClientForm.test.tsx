@@ -41,3 +41,18 @@ test('calls create client command with sanitized name', () => {
 
   expect(newClientMock).toHaveBeenCalledWith('New Client');
 })
+
+test('shows name validation message when try to submit name with spaces only', () => {
+  render(
+    <NewClientForm
+      createClientCallbackAsync={() => Promise.resolve(1)}
+    />
+  )
+
+  fireEvent.change(screen.getByTestId('new-client-name'), {target: {value: '   '}})
+
+  fireEvent.click(screen.getByText('Submit'))
+
+  const validationMessageElement = screen.getByText(`Fill the name`)
+  expect(validationMessageElement).toBeInTheDocument()
+})
