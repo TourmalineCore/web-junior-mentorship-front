@@ -56,3 +56,20 @@ test('shows name validation message when try to submit name with spaces only', (
   const validationMessageElement = screen.getByText(`Fill the name`)
   expect(validationMessageElement).toBeInTheDocument()
 })
+
+
+test('not to call createClientCallbackAsync if invalid name is submitted', () => {
+  const newClientMock = jest.fn();
+
+  render(
+    <NewClientForm
+      createClientCallbackAsync={newClientMock}
+    />
+  )
+
+  fireEvent.change(screen.getByTestId('new-client-name'), {target: {value: ' '}})
+  
+  fireEvent.click(screen.getByText('Submit'))
+
+  expect(newClientMock).not.toHaveBeenCalled();
+})
