@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
+import NewClientForm from './components/NewClientForm';
+import createClientAsync from './services/create-client.command';
 
 type Client = {
   id: number;
   name: string;
 }
 
-type NewClientResult = {
-  id: number;
-}
-
 function App() {
   const [clients, setClients] = useState<Client[]>([])
-  const [newClientName, setNewClientName] = useState<string>('')
   const [lastCreatedClientId, setLastCreatedClientId] = useState<number | null>(null)
 
   useEffect(() => {
@@ -42,18 +39,10 @@ function App() {
           ))
         }
       </ul>
-      <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-        <label>
-          Name:
-          <input
-            type="text"
-            name="name"
-            value={newClientName}
-            onChange={(e) => setNewClientName(e.target.value)}
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <NewClientForm
+        onClientCreated={(createdClientId) => setLastCreatedClientId(createdClientId)}
+        createClientCallbackAsync={createClientAsync}
+      />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <p>
@@ -70,17 +59,6 @@ function App() {
       </header>
     </div>
   );
-
-  async function handleSubmit() {
-    const {
-      data: {
-        id: newlyCreatedClientId
-      }
-    } = await axios.post<NewClientResult>(`http://localhost:5000/clients`, {
-      name: newClientName,
-    })
-    setLastCreatedClientId(newlyCreatedClientId)
-  }
 }
 
 export default App;
