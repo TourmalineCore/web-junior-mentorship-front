@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import createClientAsync from '../services/create-client.command';
 
 type NewClientFormProps = {
-  onClientCreated: (createdClientId: number) => unknown;
+  onClientCreated?: (createdClientId: number) => unknown;
+  createClientCallbackAsync: (name: string) => Promise<number>,
 }
 
 function NewClientForm({
-  onClientCreated,
+  onClientCreated = () => {},
+  createClientCallbackAsync,
 }: NewClientFormProps) {
   const [newClientName, setNewClientName] = useState<string>('')
   const [hasTriedToSubmit, setHasTriedToSubmit] = useState<boolean>(false)
@@ -21,6 +22,7 @@ function NewClientForm({
             value={newClientName}
             onChange={(e) => setNewClientName(e.target.value)}
             required
+            data-testid="new-client-name"
           />
           {
             hasTriedToSubmit && !isNameValid() && (
@@ -43,7 +45,7 @@ function NewClientForm({
       name,
     } = getNewClientData()
 
-    const newlyCreatedClientId = await createClientAsync(name)
+    const newlyCreatedClientId = await createClientCallbackAsync(name)
 
     onClientCreated(newlyCreatedClientId)
   }

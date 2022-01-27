@@ -4,7 +4,8 @@ import NewClientForm from './NewClientForm';
 test('does not show name validation message initially', () => {
   render(
     <NewClientForm
-      onClientCreated={() => {}}
+      onClientCreated={() => { }}
+      createClientCallbackAsync={() => Promise.resolve(1)}
     />
   )
 
@@ -15,7 +16,7 @@ test('does not show name validation message initially', () => {
 test('shows name validation message when try to submit with empty name', () => {
   render(
     <NewClientForm
-      onClientCreated={() => {}}
+      createClientCallbackAsync={() => Promise.resolve(1)}
     />
   )
 
@@ -23,4 +24,20 @@ test('shows name validation message when try to submit with empty name', () => {
 
   const validationMessageElement = screen.getByText(`Fill the name`)
   expect(validationMessageElement).toBeInTheDocument()
+})
+
+test('calls create client command with sanitized name', () => {
+  const newClientMock = jest.fn();
+
+  render(
+    <NewClientForm
+      createClientCallbackAsync={newClientMock}
+    />
+  )
+
+  fireEvent.change(screen.getByTestId('new-client-name'), {target: {value: '  New Client '}})
+  
+  fireEvent.click(screen.getByText('Submit'))
+
+  expect(newClientMock).toHaveBeenCalledWith('New Client');
 })

@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import axios from 'axios';
 import NewClientForm from './components/NewClientForm';
+import createClientAsync from './services/create-client.command';
 
 type Client = {
   id: number;
@@ -40,6 +41,7 @@ function App() {
       </ul>
       <NewClientForm
         onClientCreated={(createdClientId) => setLastCreatedClientId(createdClientId)}
+        createClientCallbackAsync={createClientAsync}
       />
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
