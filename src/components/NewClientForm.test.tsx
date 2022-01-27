@@ -35,9 +35,9 @@ test('calls create client command with sanitized name', () => {
     />
   )
 
-  fireEvent.change(screen.getByTestId('new-client-name'), {target: {value: '  New Client '}})
+  fillInClientName('  New Client ')
   
-  fireEvent.click(screen.getByText('Submit'))
+  clickSubmit()
 
   expect(newClientMock).toHaveBeenCalledWith('New Client');
 })
@@ -49,9 +49,9 @@ test('shows name validation message when try to submit name with spaces only', (
     />
   )
 
-  fireEvent.change(screen.getByTestId('new-client-name'), {target: {value: '   '}})
+  fillInClientName('   ')
 
-  fireEvent.click(screen.getByText('Submit'))
+  clickSubmit()
 
   const validationMessageElement = screen.getByText(`Fill the name`)
   expect(validationMessageElement).toBeInTheDocument()
@@ -67,9 +67,17 @@ test('not to call createClientCallbackAsync if invalid name is submitted', () =>
     />
   )
 
-  fireEvent.change(screen.getByTestId('new-client-name'), {target: {value: ' '}})
-  
-  fireEvent.click(screen.getByText('Submit'))
+  fillInClientName(' ')
+
+  clickSubmit()
 
   expect(newClientMock).not.toHaveBeenCalled();
 })
+
+function fillInClientName(text:string) {
+  fireEvent.change(screen.getByTestId('new-client-name'), {target: {value: text}})
+}
+
+function clickSubmit() {
+  fireEvent.click(screen.getByTestId('submit-btn-text'))
+}

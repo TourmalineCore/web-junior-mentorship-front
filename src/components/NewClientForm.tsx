@@ -6,7 +6,7 @@ type NewClientFormProps = {
 }
 
 function NewClientForm({
-  onClientCreated = () => {},
+  onClientCreated = () => { },
   createClientCallbackAsync,
 }: NewClientFormProps) {
   const [newClientName, setNewClientName] = useState<string>('')
@@ -14,24 +14,28 @@ function NewClientForm({
 
   return (
     <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
-        <label>
-          Name*:
-          <input
-            type="text"
-            name="name"
-            value={newClientName}
-            onChange={(e) => setNewClientName(e.target.value)}
-            required
-            data-testid="new-client-name"
-          />
-          {
-            hasTriedToSubmit && !isNameValid() && (
-              <span>Fill the name</span>
-            )
-          }
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <label>
+        Name*:
+        <input
+          type="text"
+          name="name"
+          value={newClientName}
+          onChange={(e) => setNewClientName(e.target.value)}
+          required
+          data-testid="new-client-name"
+        />
+        {
+          hasTriedToSubmit && !isNameValid() && (
+            <span>Fill the name</span>
+          )
+        }
+      </label>
+      <input
+        type="submit"
+        value="Submit"
+        data-testid="submit-btn-text"
+      />
+    </form>
   );
 
   async function handleSubmit() {
