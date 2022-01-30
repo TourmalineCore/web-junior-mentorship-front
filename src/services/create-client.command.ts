@@ -10,10 +10,7 @@ async function createClientAsync(newClientData: NewClientDto): Promise<number> {
     data: {
       id: newlyCreatedClientId
     }
-  } = await axios.post<NewClientResponse>(`http://localhost:5000/clients`, {
-    name: newClientData.name,
-    description: newClientData.description,
-  })
+  } = await axios.post<NewClientResponse>(`http://localhost:5000/clients`, newClientData)
 
   return newlyCreatedClientId
 }
