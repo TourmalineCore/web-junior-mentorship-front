@@ -1,11 +1,9 @@
 import { useState } from 'react';
+import NewClientDto from '../models/new-client.dto';
 
 type NewClientFormProps = {
   onClientCreated?: (createdClientId: number) => unknown;
-  createClientCallbackAsync: (newClientData: {
-    name: string, 
-    description?: string,
-  }) => Promise<number>,
+  createClientCallbackAsync: (newClientData: NewClientDto) => Promise<number>,
 }
 
 function NewClientForm({
