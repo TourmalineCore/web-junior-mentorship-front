@@ -2,7 +2,10 @@ import { useState } from 'react';
 
 type NewClientFormProps = {
   onClientCreated?: (createdClientId: number) => unknown;
-  createClientCallbackAsync: (newClientData: {name: string, description?: string}) => Promise<number>,
+  createClientCallbackAsync: (newClientData: {
+    name: string, 
+    description?: string,
+  }) => Promise<number>,
 }
 
 function NewClientForm({
@@ -38,7 +41,6 @@ function NewClientForm({
           name="description"
           value={newClientDescription}
           onChange={(e) => setNewClientDescription(e.target.value)}
-          data-testid="new-client-description"
         />
       </label>
 
@@ -57,12 +59,7 @@ function NewClientForm({
       return
     }
 
-    const {
-      name,
-      description,
-    } = getNewClientData()
-
-    const newlyCreatedClientId = await createClientCallbackAsync({name, description})
+    const newlyCreatedClientId = await createClientCallbackAsync(getNewClientData())
 
     onClientCreated(newlyCreatedClientId)
   }
