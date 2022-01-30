@@ -36,10 +36,33 @@ test('calls create client command with sanitized name', () => {
   )
 
   fillInClientName('  New Client ')
-  
+
   clickSubmit()
 
-  expect(newClientMock).toHaveBeenCalledWith('New Client');
+  expect(newClientMock).toHaveBeenCalledWith({ 'description': '', 'name': 'New Client' });
+})
+
+test('calls create client command with filled name and description', () => {
+  const newClientMock = jest.fn();
+
+  render(
+    <NewClientForm
+      createClientCallbackAsync={newClientMock}
+    />
+  )
+
+  const newName = 'Best Client';
+  const newDescription = 'nice';
+
+  fillInClientName(newName)
+  fireEvent.change(screen.getByTestId('new-client-description'), { target: { value: newDescription } })
+
+  clickSubmit()
+
+  expect(newClientMock).toHaveBeenCalledWith({
+    name: newName,
+    description: newDescription,
+  });
 })
 
 test('shows name validation message when try to submit name with spaces only', () => {
@@ -74,8 +97,8 @@ test('not to call createClientCallbackAsync if invalid name is submitted', () =>
   expect(newClientMock).not.toHaveBeenCalled();
 })
 
-function fillInClientName(text:string) {
-  fireEvent.change(screen.getByTestId('new-client-name'), {target: {value: text}})
+function fillInClientName(text: string) {
+  fireEvent.change(screen.getByTestId('new-client-name'), { target: { value: text } })
 }
 
 function clickSubmit() {
