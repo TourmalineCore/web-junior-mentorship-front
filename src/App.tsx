@@ -8,6 +8,7 @@ import createClientAsync from './services/create-client.command';
 type Client = {
   id: number;
   name: string;
+  description: string;
 }
 
 function App() {
@@ -31,10 +32,12 @@ function App() {
           clients.map(({
             id,
             name,
+            description,
           }) => (
             <li key={id}>
               <span>{id}</span>
               <span>{name}</span>
+              <span>{description}</span>
             </li>
           ))
         }

@@ -4,13 +4,14 @@ type NewClientResponse = {
   id: number;
 }
 
-async function createClientAsync(name: string): Promise<number> {
+async function createClientAsync(newClientData: {name: string, description?: string}): Promise<number> {
   const {
     data: {
       id: newlyCreatedClientId
     }
   } = await axios.post<NewClientResponse>(`http://localhost:5000/clients`, {
-    name,
+    name: newClientData.name,
+    description: newClientData.description,
   })
 
   return newlyCreatedClientId

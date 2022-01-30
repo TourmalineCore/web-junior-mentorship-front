@@ -39,7 +39,7 @@ test('calls create client command with sanitized name', () => {
   
   clickSubmit()
 
-  expect(newClientMock).toHaveBeenCalledWith('New Client');
+  expect(newClientMock).toHaveBeenCalledWith({'description': '', 'name': 'New Client'});
 })
 
 test('shows name validation message when try to submit name with spaces only', () => {

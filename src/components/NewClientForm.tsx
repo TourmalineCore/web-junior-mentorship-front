@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 type NewClientFormProps = {
   onClientCreated?: (createdClientId: number) => unknown;
-  createClientCallbackAsync: (name: string) => Promise<number>,
+  createClientCallbackAsync: (newClientData: {name: string, description?: string}) => Promise<number>,
 }
 
 function NewClientForm({
@@ -10,6 +10,7 @@ function NewClientForm({
   createClientCallbackAsync,
 }: NewClientFormProps) {
   const [newClientName, setNewClientName] = useState<string>('')
+  const [newClientDescription, setNewClientDescription] = useState<string>('')
   const [hasTriedToSubmit, setHasTriedToSubmit] = useState<boolean>(false)
 
   return (
@@ -29,7 +30,18 @@ function NewClientForm({
             <span>Fill the name</span>
           )
         }
+
       </label>
+      <label>
+        Description:
+        <textarea
+          name="description"
+          value={newClientDescription}
+          onChange={(e) => setNewClientDescription(e.target.value)}
+          data-testid="new-client-description"
+        />
+      </label>
+
       <input
         type="submit"
         value="Submit"
@@ -47,9 +59,10 @@ function NewClientForm({
 
     const {
       name,
+      description,
     } = getNewClientData()
 
-    const newlyCreatedClientId = await createClientCallbackAsync(name)
+    const newlyCreatedClientId = await createClientCallbackAsync({name, description})
 
     onClientCreated(newlyCreatedClientId)
   }
@@ -64,7 +77,8 @@ function NewClientForm({
 
   function getNewClientData() {
     return {
-      name: newClientName.trim()
+      name: newClientName.trim(),
+      description: newClientDescription.trim(),
     }
   }
 }
