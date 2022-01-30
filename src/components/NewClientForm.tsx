@@ -39,6 +39,7 @@ function NewClientForm({
           name="description"
           value={newClientDescription}
           onChange={(e) => setNewClientDescription(e.target.value)}
+          data-testid="new-client-description"
         />
       </label>
 
