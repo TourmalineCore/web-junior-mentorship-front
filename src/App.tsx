@@ -13,20 +13,12 @@ type Client = {
 
 function App() {
   const [clients, setClients] = useState<Client[]>([])
-  const [lastCreatedClientId, setLastCreatedClientId] = useState<number | null>(null)
   const [isConfirmationShown, setIsConfirmationShown] = useState(false)
   const [clientIdToBeDeleted, setClientIdToBeDeleted] = useState<number | null>(null)
-  const [lastDeletedClientId, setLastDeletedClientId] = useState<number | null>(null)
 
   useEffect(() => {
-    async function fetchClients() {
-      const {
-        data,
-      } = await axios.get<Client[]>(`http://localhost:5000/clients`)
-      setClients(data)
-    }
     fetchClients();
-  }, [lastCreatedClientId, lastDeletedClientId]);
+  }, []);
 
   return (
     <div className="App">
@@ -67,7 +59,7 @@ function App() {
         }
       </ul>
       <NewClientForm
-        onClientCreated={(createdClientId) => setLastCreatedClientId(createdClientId)}
+        onClientCreated={(createdClientId) => fetchClients()}
         createClientCallbackAsync={createClientAsync}
       />
       <header className="App-header">
@@ -99,9 +91,16 @@ function App() {
 
   async function onYesClick(clientId: number) {
     await axios.delete<Client[]>(`http://localhost:5000/clients/${clientId}`)
-    setLastDeletedClientId(clientId);
+    await fetchClients();
     setIsConfirmationShown(false);
     setClientIdToBeDeleted(null); 
+  }
+
+  async function fetchClients() {
+    const {
+      data,
+    } = await axios.get<Client[]>(`http://localhost:5000/clients`)
+    setClients(data)
   }
 }
 
