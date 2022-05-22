@@ -1,14 +1,15 @@
-import './App.css';
+import './App.css'
 
-import { useEffect, useState } from 'react';
-import axios from 'axios';
-import NewClientForm from './components/NewClientForm';
-import createClientAsync from './services/create-client.command';
+import { useEffect, useState } from 'react'
+import axios from 'axios'
+import NewClientForm from './components/NewClientForm'
+import createClientAsync from './services/create-client.command'
+import deleteClientAsync from './services/delete-client.command'
 
 type Client = {
-  id: number;
-  name: string;
-  description: string;
+  id: number
+  name: string
+  description: string
 }
 
 function App() {
@@ -18,8 +19,8 @@ function App() {
   const [clientIdToBeDeleted, setClientIdToBeDeleted] = useState<number | null>(null)
 
   useEffect(() => {
-    fetchClients();
-  }, []);
+    fetchClients()
+  }, [])
 
   return (
     <div className="App">
@@ -64,25 +65,25 @@ function App() {
         createClientCallbackAsync={createClientAsync}
       />
     </div>
-  );
+  )
 
   function onDeleteClick(clientId: number) {
-    setIsDeleteConfirmationShown(true);
-    setClientIdToBeDeleted(clientId);
+    setIsDeleteConfirmationShown(true)
+    setClientIdToBeDeleted(clientId)
   }
 
   function onRejectDeleteClick() {
-    setIsDeleteConfirmationShown(false);
-    setClientIdToBeDeleted(null);
+    setIsDeleteConfirmationShown(false)
+    setClientIdToBeDeleted(null)
   }
 
   async function onConfirmDeleteClick(clientId: number) {
-    await axios.delete<Client[]>(`http://localhost:5000/clients/${clientId}`)
+    await deleteClientAsync(clientId)
 
-    await fetchClients();
+    await fetchClients()
 
-    setIsDeleteConfirmationShown(false);
-    setClientIdToBeDeleted(null);
+    setIsDeleteConfirmationShown(false) 
+    setClientIdToBeDeleted(null)
   }
 
   async function fetchClients() {
@@ -94,4 +95,4 @@ function App() {
   }
 }
 
-export default App;
+export default App
