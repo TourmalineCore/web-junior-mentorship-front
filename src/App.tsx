@@ -14,6 +14,9 @@ type Client = {
 function App() {
   const [clients, setClients] = useState<Client[]>([])
   const [lastCreatedClientId, setLastCreatedClientId] = useState<number | null>(null)
+  const [isConfirmationShown, setIsConfirmationShown] = useState(false)
+  const [clientIdToBeDeleted, setClientIdToBeDeleted] = useState<number | null>(null)
+  const [lastDeletedClientId, setLastDeletedClientId] = useState<number | null>(null)
 
   useEffect(() => {
     async function fetchClients() {
@@ -23,7 +26,7 @@ function App() {
       setClients(data)
     }
     fetchClients();
-  }, [lastCreatedClientId]);
+  }, [lastCreatedClientId, lastDeletedClientId]);
 
   return (
     <div className="App">
@@ -38,6 +41,27 @@ function App() {
               <span>{id}</span>
               <span>{name}</span>
               <span>{description}</span>
+              
+              {isConfirmationShown && clientIdToBeDeleted === id
+              ? (
+                <span>
+                  Are you sure you want to delete this user?
+                  <button type="button"
+                   onClick={()=> onYesClick(id)}>
+                    Yes
+                  </button>
+                  <button type="button" 
+                    onClick={()=> onNoClick(id)}>
+                      No
+                    </button>
+                </span>
+              )
+              : (
+                <button type="button" onClick={()=> onDeleteClick(id)}>
+                  Delete
+                </button> 
+                )
+              }
             </li>
           ))
         }
@@ -62,6 +86,23 @@ function App() {
       </header>
     </div>
   );
+
+  function onDeleteClick(clientId: number) {
+    setIsConfirmationShown(true);
+    setClientIdToBeDeleted(clientId); 
+  }
+
+  function onNoClick(clientId: number) {
+    setIsConfirmationShown(false);
+    setClientIdToBeDeleted(null); 
+  }
+
+  async function onYesClick(clientId: number) {
+    await axios.delete<Client[]>(`http://localhost:5000/clients/${clientId}`)
+    setLastDeletedClientId(clientId);
+    setIsConfirmationShown(false);
+    setClientIdToBeDeleted(null); 
+  }
 }
 
 export default App;
