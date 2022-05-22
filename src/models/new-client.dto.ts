@@ -1,6 +1,6 @@
 type NewClientDto = {
-  name: string;
-  description?: string;
+  name: string
+  description?: string
 }
 
-export default NewClientDto;
+export default NewClientDto

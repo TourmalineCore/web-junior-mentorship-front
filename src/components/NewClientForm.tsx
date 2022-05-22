@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import NewClientDto from '../models/new-client.dto';
+import { useState } from 'react'
+import NewClientDto from '../models/new-client.dto'
 
 type NewClientFormProps = {
-  onClientCreated?: (createdClientId: number) => unknown;
+  onClientCreated?: (createdClientId: number) => unknown
   createClientCallbackAsync: (newClientData: NewClientDto) => Promise<number>,
 }
 
@@ -15,7 +15,7 @@ function NewClientForm({
   const [hasTriedToSubmit, setHasTriedToSubmit] = useState<boolean>(false)
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); handleSubmit(); }}>
+    <form onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>
       <label>
         Name*:
         <input
@@ -49,7 +49,7 @@ function NewClientForm({
         data-testid="submit-btn-text"
       />
     </form>
-  );
+  )
 
   async function handleSubmit() {
     setHasTriedToSubmit(true)
@@ -79,4 +79,4 @@ function NewClientForm({
   }
 }
 
-export default NewClientForm;
+export default NewClientForm

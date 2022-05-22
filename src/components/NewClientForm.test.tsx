@@ -1,5 +1,5 @@
-import { fireEvent, render, screen } from '@testing-library/react';
-import NewClientForm from './NewClientForm';
+import { fireEvent, render, screen } from '@testing-library/react'
+import NewClientForm from './NewClientForm'
 
 test('does not show name validation message initially', () => {
   render(
@@ -27,7 +27,7 @@ test('shows name validation message when try to submit with empty name', () => {
 })
 
 test('calls create client command with sanitized name', () => {
-  const newClientMock = jest.fn();
+  const newClientMock = jest.fn()
 
   render(
     <NewClientForm
@@ -39,11 +39,11 @@ test('calls create client command with sanitized name', () => {
 
   clickSubmit()
 
-  expect(newClientMock).toHaveBeenCalledWith({ 'description': '', 'name': 'New Client' });
+  expect(newClientMock).toHaveBeenCalledWith({ 'description': '', 'name': 'New Client' })
 })
 
 test('calls create client command with filled name and description', () => {
-  const newClientMock = jest.fn();
+  const newClientMock = jest.fn()
 
   render(
     <NewClientForm
@@ -51,8 +51,8 @@ test('calls create client command with filled name and description', () => {
     />
   )
 
-  const newName = 'Best Client';
-  const newDescription = 'nice';
+  const newName = 'Best Client'
+  const newDescription = 'nice'
 
   fillInClientName(newName)
   fireEvent.change(screen.getByTestId('new-client-description'), { target: { value: newDescription } })
@@ -62,7 +62,7 @@ test('calls create client command with filled name and description', () => {
   expect(newClientMock).toHaveBeenCalledWith({
     name: newName,
     description: newDescription,
-  });
+  })
 })
 
 test('shows name validation message when try to submit name with spaces only', () => {
@@ -82,7 +82,7 @@ test('shows name validation message when try to submit name with spaces only', (
 
 
 test('not to call createClientCallbackAsync if invalid name is submitted', () => {
-  const newClientMock = jest.fn();
+  const newClientMock = jest.fn()
 
   render(
     <NewClientForm
@@ -94,7 +94,7 @@ test('not to call createClientCallbackAsync if invalid name is submitted', () =>
 
   clickSubmit()
 
-  expect(newClientMock).not.toHaveBeenCalled();
+  expect(newClientMock).not.toHaveBeenCalled()
 })
 
 function fillInClientName(text: string) {

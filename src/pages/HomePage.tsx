@@ -1,11 +1,11 @@
-import './App.css'
+import './HomePage.css'
 
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom'
 import axios from 'axios'
 
-import deleteClientAsync from './services/delete-client.command'
-import { API_HOST_URL } from './config';
+import deleteClientAsync from '../services/delete-client.command'
+import { API_HOST_URL } from '../config'
 
 type Client = {
   id: number
