@@ -1,3 +1,5 @@
+import './NewClientPage.scss'
+
 import {
   Link,
   useNavigate,
@@ -8,11 +10,9 @@ import createClientAsync from '../services/create-client.command'
 function NewClientPage() {
   let navigate = useNavigate()
   return (
-    <div>
-      <div>
-        <Link to="/">Go back to Home Page</Link>
-      </div>
-      Create a New CLient!
+    <div className="new-client">
+      <Link to="/" className="new-client__link">Go back to Home Page</Link>
+      <div className="new-client__title">Create a New CLient!</div>
       <NewClientForm
         onClientCreated={() => navigate(`/`)}
         createClientCallbackAsync={createClientAsync}

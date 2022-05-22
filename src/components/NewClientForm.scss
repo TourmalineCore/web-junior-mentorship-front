@@ -1,0 +1,41 @@
+.new-client-form {
+  &__fields {
+    display: flex;
+    flex-direction: column;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  &__label {
+    display: flex;
+    align-items: flex-end;
+
+    & + & {
+      margin-top: 10px;
+
+      @media (min-width: 768px) {
+        margin-top: 0;
+        margin-left: 10px;
+      }
+    }
+
+    @media (min-width: 768px) {
+      width: 50%;
+    }
+  }
+
+  &__input {
+    flex-grow: 1;
+    margin-left: 10px;
+  }
+
+  &__btn {
+    margin-top: 20px;
+
+    @media (min-width: 768px) {
+      display: block;
+    }
+  }
+}

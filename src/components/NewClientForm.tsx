@@ -1,9 +1,11 @@
+import './NewClientForm.scss'
+
 import { useState } from 'react'
 import NewClientDto from '../models/new-client.dto'
 
 type NewClientFormProps = {
   onClientCreated?: (createdClientId: number) => unknown
-  createClientCallbackAsync: (newClientData: NewClientDto) => Promise<number>,
+  createClientCallbackAsync: (newClientData: NewClientDto) => Promise<number>
 }
 
 function NewClientForm({
@@ -15,35 +17,40 @@ function NewClientForm({
   const [hasTriedToSubmit, setHasTriedToSubmit] = useState<boolean>(false)
 
   return (
-    <form onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>
-      <label>
-        Name*:
-        <input
-          type="text"
-          name="name"
-          value={newClientName}
-          onChange={(e) => setNewClientName(e.target.value)}
-          required
-          data-testid="new-client-name"
-        />
-        {
-          hasTriedToSubmit && !isNameValid() && (
-            <span>Fill the name</span>
-          )
-        }
+    <form className="new-client-form" onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>
+      <div className="new-client-form__fields">
+        <label className="new-client-form__label">
+          Name*:
+          <input
+            className="new-client-form__input"
+            type="text"
+            name="name"
+            value={newClientName}
+            onChange={(e) => setNewClientName(e.target.value)}
+            required
+            data-testid="new-client-name"
+          />
+          {
+            hasTriedToSubmit && !isNameValid() && (
+              <span>Fill the name</span>
+            )
+          }
 
-      </label>
-      <label>
-        Description:
-        <textarea
-          name="description"
-          value={newClientDescription}
-          onChange={(e) => setNewClientDescription(e.target.value)}
-          data-testid="new-client-description"
-        />
-      </label>
+        </label>
+        <label className="new-client-form__label">
+          Description:
+          <textarea
+            className="new-client-form__input new-client-form__input--textarea"
+            name="description"
+            value={newClientDescription}
+            onChange={(e) => setNewClientDescription(e.target.value)}
+            data-testid="new-client-description"
+          />
+        </label>
+      </div>
 
       <input
+        className="new-client-form__btn"
         type="submit"
         value="Submit"
         data-testid="submit-btn-text"

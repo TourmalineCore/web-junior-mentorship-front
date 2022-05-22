@@ -1,0 +1,15 @@
+.new-client {
+  max-width: 1200px;
+  margin: 20px 0;  
+  padding: 0 20px;
+
+  &__link {
+    display: block;
+    margin-bottom: 20px;
+  }
+
+  &__title {
+    margin-bottom: 20px;
+  }
+}
+

@@ -1,4 +1,4 @@
-import './HomePage.css'
+import './HomePage.scss'
 
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
@@ -24,35 +24,35 @@ function HomePage() {
   }, [])
 
   return (
-    <div className='App'>
-      <ul>
+    <div className="clients">
+      <ul className="clients__list">
         {
           clients.map(({
             id,
             name,
             description,
           }) => (
-            <li key={id}>
-              <span>{id}</span>
-              <span>{name}</span>
-              <span>{description}</span>
+            <li className="clients__item" key={id}>
+              <span className="clients__id">{id}</span>
+              <span className="clients__name">{name}</span>
+              <span className="clients__description">{description}</span>
               {
                 isDeleteConfirmationShown && clientIdToBeDeleted === id
                   ? (
-                    <span>
+                    <span className="clients__confirmation">
                       Are you sure you want to delete this user?
-                      <button type='button'
+                      <button className="clients__btn" type='button'
                         onClick={() => onConfirmDeleteClick(id)}>
                         Yes
                       </button>
-                      <button type='button'
+                      <button className="clients__btn" type='button'
                         onClick={() => onRejectDeleteClick()}>
                         No
                       </button>
                     </span>
                   )
                   : (
-                    <button type='button' onClick={() => onDeleteClick(id)}>
+                    <button className="clients__btn" type='button' onClick={() => onDeleteClick(id)}>
                       Delete
                     </button>
                   )
@@ -61,7 +61,7 @@ function HomePage() {
           ))
         }
       </ul>
-      <Link to='/new-client'>Create a New Client</Link>
+      <Link className="clients__link" to='/new-client'>Create a New Client</Link>
     </div>
   )
 
