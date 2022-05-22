@@ -1,11 +1,11 @@
 import './App.css'
 
-import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
 import axios from 'axios'
-import NewClientForm from './components/NewClientForm'
-import createClientAsync from './services/create-client.command'
+
 import deleteClientAsync from './services/delete-client.command'
+import { API_HOST_URL } from './config';
 
 type Client = {
   id: number
@@ -24,7 +24,7 @@ function HomePage() {
   }, [])
 
   return (
-    <div className="App">
+    <div className='App'>
       <ul>
         {
           clients.map(({
@@ -41,18 +41,18 @@ function HomePage() {
                   ? (
                     <span>
                       Are you sure you want to delete this user?
-                      <button type="button"
+                      <button type='button'
                         onClick={() => onConfirmDeleteClick(id)}>
                         Yes
                       </button>
-                      <button type="button"
+                      <button type='button'
                         onClick={() => onRejectDeleteClick()}>
                         No
                       </button>
                     </span>
                   )
                   : (
-                    <button type="button" onClick={() => onDeleteClick(id)}>
+                    <button type='button' onClick={() => onDeleteClick(id)}>
                       Delete
                     </button>
                   )
@@ -61,7 +61,7 @@ function HomePage() {
           ))
         }
       </ul>
-      <Link to="/new-client">Create a New Client</Link>
+      <Link to='/new-client'>Create a New Client</Link>
     </div>
   )
 
@@ -87,7 +87,7 @@ function HomePage() {
   async function fetchClients() {
     const {
       data,
-    } = await axios.get<Client[]>(`http://localhost:5000/clients`)
+    } = await axios.get<Client[]>(`${API_HOST_URL}/clients`)
 
     setClients(data)
   }

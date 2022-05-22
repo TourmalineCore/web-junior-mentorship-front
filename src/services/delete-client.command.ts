@@ -1,7 +1,8 @@
 import axios from 'axios';
+import { API_HOST_URL } from '../config';
 
 function deleteClientAsync(clientId: number): Promise<boolean> {
-  return axios.delete(`http://localhost:5000/clients/${clientId}`)
+  return axios.delete(`${API_HOST_URL}/clients/${clientId}`)
 }
 
 export default deleteClientAsync
