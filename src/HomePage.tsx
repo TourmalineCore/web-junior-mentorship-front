@@ -1,5 +1,6 @@
 import './App.css'
 
+import { Link } from "react-router-dom";
 import { useEffect, useState } from 'react'
 import axios from 'axios'
 import NewClientForm from './components/NewClientForm'
@@ -12,7 +13,7 @@ type Client = {
   description: string
 }
 
-function App() {
+function HomePage() {
   const [clients, setClients] = useState<Client[]>([])
 
   const [isDeleteConfirmationShown, setIsDeleteConfirmationShown] = useState(false)
@@ -60,10 +61,7 @@ function App() {
           ))
         }
       </ul>
-      <NewClientForm
-        onClientCreated={(createdClientId) => fetchClients()}
-        createClientCallbackAsync={createClientAsync}
-      />
+      <Link to="/new-client">Create a New Client</Link>
     </div>
   )
 
@@ -95,4 +93,4 @@ function App() {
   }
 }
 
-export default App
+export default HomePage
