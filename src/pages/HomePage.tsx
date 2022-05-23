@@ -1,8 +1,9 @@
 import './HomePage.scss'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { debounce } from 'lodash';
 
 import deleteClientAsync from '../services/delete-client.command'
 import { API_HOST_URL } from '../config'
@@ -10,14 +11,24 @@ import { API_HOST_URL } from '../config'
 type Client = {
   id: number
   name: string
-  description: string
+  description?: string
 }
 
 function HomePage() {
+  const [clientNameSearchTerm, setClientNameSearchTerm] = useState(``);
+
   const [clients, setClients] = useState<Client[]>([])
 
   const [isDeleteConfirmationShown, setIsDeleteConfirmationShown] = useState(false)
   const [clientIdToBeDeleted, setClientIdToBeDeleted] = useState<number | null>(null)
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const memoizedFetchClients = useCallback(
+    debounce((clientNameTerm: string) => {
+      fetchClients(clientNameTerm)
+    }, 1000),
+    []
+  );
 
   useEffect(() => {
     fetchClients()
@@ -25,6 +36,17 @@ function HomePage() {
 
   return (
     <div className="clients">
+      <input
+        type="text"
+        value={clientNameSearchTerm}
+        onChange={(e) => handleClientNameSearchChange(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Escape') {
+            handleClientNameSearchChange(``);
+          }
+        }}
+        placeholder="Enter name"
+      />
       <ul className="clients__list">
         {
           clients.map(({
@@ -86,12 +108,17 @@ function HomePage() {
     setClientIdToBeDeleted(null)
   }
 
-  async function fetchClients() {
+  async function fetchClients(clientNameTerm: string = ``) {
     const {
       data,
-    } = await axios.get<Client[]>(`${API_HOST_URL}/clients`)
+    } = await axios.get<Client[]>(`${API_HOST_URL}/clients?searchTerm=${clientNameTerm}`)
 
     setClients(data)
+  }
+
+  function handleClientNameSearchChange(newClientNameSearchTerm: string = ``) {
+    setClientNameSearchTerm(newClientNameSearchTerm)
+    memoizedFetchClients(newClientNameSearchTerm)
   }
 }
 

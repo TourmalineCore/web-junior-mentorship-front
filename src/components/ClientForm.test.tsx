@@ -1,9 +1,9 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import NewClientForm from './ClientForm'
+import ClientForm from './ClientForm'
 
 test('does not show name validation message initially', () => {
   render(
-    <NewClientForm
+    <ClientForm
       onClientSubmitted={() => { }}
       submitClientCallbackAsync={() => Promise.resolve(1)}
     />
@@ -15,7 +15,7 @@ test('does not show name validation message initially', () => {
 
 test('shows name validation message when try to submit with empty name', () => {
   render(
-    <NewClientForm
+    <ClientForm
       submitClientCallbackAsync={() => Promise.resolve(1)}
     />
   )
@@ -30,7 +30,7 @@ test('calls create client command with sanitized name', () => {
   const newClientMock = jest.fn()
 
   render(
-    <NewClientForm
+    <ClientForm
       submitClientCallbackAsync={newClientMock}
     />
   )
@@ -39,14 +39,14 @@ test('calls create client command with sanitized name', () => {
 
   clickSubmit()
 
-  expect(newClientMock).toHaveBeenCalledWith({ 'description': '', 'name': 'New Client' })
+  expect(newClientMock).toHaveBeenCalledWith({ description: '', name: 'New Client' })
 })
 
 test('calls create client command with filled name and description', () => {
   const newClientMock = jest.fn()
 
   render(
-    <NewClientForm
+    <ClientForm
       submitClientCallbackAsync={newClientMock}
     />
   )
@@ -67,7 +67,7 @@ test('calls create client command with filled name and description', () => {
 
 test('shows name validation message when try to submit name with spaces only', () => {
   render(
-    <NewClientForm
+    <ClientForm
       submitClientCallbackAsync={() => Promise.resolve(1)}
     />
   )
@@ -85,7 +85,7 @@ test('not to call createClientCallbackAsync if invalid name is submitted', () =>
   const newClientMock = jest.fn()
 
   render(
-    <NewClientForm
+    <ClientForm
       submitClientCallbackAsync={newClientMock}
     />
   )
