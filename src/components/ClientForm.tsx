@@ -3,25 +3,19 @@ import './ClientForm.scss'
 import { useState } from 'react'
 import ClientDataDto from '../models/client-data.dto'
 
-type Client = {
-  id: number
-  name: string
-  description: string
-}
-
-type NewClientFormProps<SubmitResultType> = {
+type ClientFormProps<SubmitResultType> = {
+  initialClientData?: ClientDataDto
   onClientSubmitted?: (submitResult: SubmitResultType) => unknown
   submitClientCallbackAsync: (clientDataDto: ClientDataDto) => Promise<SubmitResultType>
-  initialClientData?: Client
 }
 
-function NewClientForm<SubmitResultType>({
+function ClientForm<SubmitResultType>({
   initialClientData,
   onClientSubmitted = () => { },
   submitClientCallbackAsync,
-}: NewClientFormProps<SubmitResultType>) {
+}: ClientFormProps<SubmitResultType>) {
   const [newClientName, setNewClientName] = useState<string>(initialClientData ? initialClientData.name : ``)
-  const [newClientDescription, setNewClientDescription] = useState<string>(initialClientData ? initialClientData.description : ``)
+  const [newClientDescription, setNewClientDescription] = useState<string>(initialClientData ? initialClientData.description || `` : ``)
   
   const [hasTriedToSubmit, setHasTriedToSubmit] = useState<boolean>(false)
 
@@ -88,21 +82,11 @@ function NewClientForm<SubmitResultType>({
   }
 
   function getClientData() {
-    const clientData: {
-      id?: number
-      name: string
-      description: string
-    } = {
+    return {
       name: newClientName.trim(),
       description: newClientDescription.trim(),
     }
-
-    if (initialClientData) {
-      clientData.id = initialClientData.id
-    }
-
-    return clientData
   }
 }
 
-export default NewClientForm
+export default ClientForm
