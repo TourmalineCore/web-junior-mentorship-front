@@ -1,11 +1,11 @@
 import { fireEvent, render, screen } from '@testing-library/react'
-import NewClientForm from './NewClientForm'
+import NewClientForm from './ClientForm'
 
 test('does not show name validation message initially', () => {
   render(
     <NewClientForm
-      onClientCreated={() => { }}
-      createClientCallbackAsync={() => Promise.resolve(1)}
+      onClientSubmitted={() => { }}
+      submitClientCallbackAsync={() => Promise.resolve(1)}
     />
   )
 
@@ -16,7 +16,7 @@ test('does not show name validation message initially', () => {
 test('shows name validation message when try to submit with empty name', () => {
   render(
     <NewClientForm
-      createClientCallbackAsync={() => Promise.resolve(1)}
+      submitClientCallbackAsync={() => Promise.resolve(1)}
     />
   )
 
@@ -31,7 +31,7 @@ test('calls create client command with sanitized name', () => {
 
   render(
     <NewClientForm
-      createClientCallbackAsync={newClientMock}
+      submitClientCallbackAsync={newClientMock}
     />
   )
 
@@ -47,7 +47,7 @@ test('calls create client command with filled name and description', () => {
 
   render(
     <NewClientForm
-      createClientCallbackAsync={newClientMock}
+      submitClientCallbackAsync={newClientMock}
     />
   )
 
@@ -55,7 +55,7 @@ test('calls create client command with filled name and description', () => {
   const newDescription = 'nice'
 
   fillInClientName(newName)
-  fireEvent.change(screen.getByTestId('new-client-description'), { target: { value: newDescription } })
+  fireEvent.change(screen.getByTestId('client-description'), { target: { value: newDescription } })
 
   clickSubmit()
 
@@ -68,7 +68,7 @@ test('calls create client command with filled name and description', () => {
 test('shows name validation message when try to submit name with spaces only', () => {
   render(
     <NewClientForm
-      createClientCallbackAsync={() => Promise.resolve(1)}
+      submitClientCallbackAsync={() => Promise.resolve(1)}
     />
   )
 
@@ -86,7 +86,7 @@ test('not to call createClientCallbackAsync if invalid name is submitted', () =>
 
   render(
     <NewClientForm
-      createClientCallbackAsync={newClientMock}
+      submitClientCallbackAsync={newClientMock}
     />
   )
 
@@ -98,7 +98,7 @@ test('not to call createClientCallbackAsync if invalid name is submitted', () =>
 })
 
 function fillInClientName(text: string) {
-  fireEvent.change(screen.getByTestId('new-client-name'), { target: { value: text } })
+  fireEvent.change(screen.getByTestId('client-name'), { target: { value: text } })
 }
 
 function clickSubmit() {

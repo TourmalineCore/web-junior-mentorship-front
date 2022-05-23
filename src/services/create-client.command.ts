@@ -1,12 +1,12 @@
 import axios from 'axios'
 import { API_HOST_URL } from '../config'
-import NewClientDto from '../models/new-client.dto'
+import ClientDataDto from '../models/client-data.dto'
 
 type NewClientResponse = {
   id: number
 }
 
-async function createClientAsync(newClientData: NewClientDto): Promise<number> {
+async function createClientAsync(newClientData: ClientDataDto): Promise<number> {
   const {
     data: {
       id: newlyCreatedClientId

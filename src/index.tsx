@@ -11,6 +11,7 @@ import {
 import HomePage from './pages/HomePage'
 import reportWebVitals from './reportWebVitals'
 import NewClientPage from './pages/NewClientPage'
+import UpdateClientPage from './pages/UpdateClientPage'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +19,7 @@ ReactDOM.render(
       <Routes>
         <Route path='/' element={<HomePage />} />
         <Route path='new-client' element={<NewClientPage />} />
+        <Route path='clients/:id' element={<UpdateClientPage />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,
