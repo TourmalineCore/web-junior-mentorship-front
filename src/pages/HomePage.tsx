@@ -34,7 +34,9 @@ function HomePage() {
           }) => (
             <li className="clients__item" key={id}>
               <span className="clients__id">{id}</span>
-              <span className="clients__name">{name}</span>
+              <Link className="clients__link" to={`/clients/${id}`}>
+                <span className="clients__name">{name}</span>
+              </Link>
               <span className="clients__description">{description}</span>
               {
                 isDeleteConfirmationShown && clientIdToBeDeleted === id
