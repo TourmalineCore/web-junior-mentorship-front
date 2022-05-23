@@ -11,7 +11,7 @@ import { API_HOST_URL } from '../config'
 type Client = {
   id: number
   name: string
-  description: string
+  description?: string
 }
 
 function HomePage() {
